@@ -1,0 +1,24 @@
+version: '3'
+
+silent: false
+
+tasks:
+  default:
+    - task: link
+
+  link:
+    cmds:
+      - ln -s "{{ .PWD }}/files/gitconfig" {{ .TARGET }}
+      - ln -s "{{ .PWD }}/files/gitignore_global" {{ .GITIGNORE }}
+      - mkdir -p "{{ .TEMPLATE | osDir }}" &&  ln -s "{{ .PWD }}/files/template" {{ .TEMPLATE }}
+
+  unlink:
+    cmds:
+      - rm "{{ .TARGET }}"
+      - rm "{{ .GITIGNORE }}"
+      - rm -rf "{{ .TEMPLATE | osDir }}"
+
+vars:
+  TARGET: "{{ .HOME }}/.gitconfig"
+  GITIGNORE: "{{ .HOME }}/.gitignore_global"
+  TEMPLATE: "{{ .HOME }}/.config/git/template"

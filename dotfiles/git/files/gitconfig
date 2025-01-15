@@ -1,0 +1,19 @@
+[rebase]
+	autoStash = true
+[pull]
+	rebase = true
+[alias]
+	up = pull --rebase --autostash
+[user]
+	name = Linghua Zhang
+	email = linghua.zhang@me.com
+[init]
+	defaultBranch = main
+[credential]
+	helper = manager-core
+	helper = 
+	helper = /usr/local/share/gcm-core/git-credential-manager
+[commit]
+	template = ~/.config/git/template
+[core]
+	excludesfile = ~/.gitignore_global
