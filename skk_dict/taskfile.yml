@@ -1,0 +1,134 @@
+version: '3'
+
+silent: false
+
+tasks:
+  default:
+    - task: combine_dicts 
+      vars:
+        DICT_NAMES: "{{ range $idx, $item := concat .DICTS .EDICTS .ZIPCODE_DICTS .OTHER_DICT_URLS }}
+          {{ if hasSuffix \".utf8\" $item }}{{ $item | osBase }}
+          {{ else }}
+            {{ $item | osBase }}.utf8
+          {{ end }}
+        {{ end }}"
+        DST_DIR: "{{ .CACHE_DIR }}"
+        FILE: "{{ .OUTPUT_DIR }}/{{ .COMBINED_FILE }}"
+
+  retrieve_dicts:
+    vars:
+      BASE_URL: "https://github.com/skk-dev/dict/raw/refs/heads/gh-pages"
+    cmds:
+      - for: 
+          var: DICTS
+        task: retrieve_gz
+        vars:
+          URL: "{{ .BASE_URL }}/{{ .ITEM }}.gz"
+          DST_DIR: "{{ .CACHE_DIR }}"
+          NAME: "{{ .ITEM }}"
+      - task: retrieve_tar_gz
+        vars:
+          URL: "{{ .BASE_URL }}/zipcode.tar.gz"
+          DST_DIR: "{{ .CACHE_DIR }}"
+          NAME: "{{ range $idx, $item := .ZIPCODE_DICTS }}{{ if $idx }} {{ end }}zipcode/{{ $item }}{{ end }}"
+          STRIP_COMPONENTS: 2
+      - for: 
+          var: EDICTS
+        task: retrieve_tar_gz
+        vars:
+          URL: "{{ .BASE_URL }}/{{ .ITEM }}.tar.gz"
+          DST_DIR: "{{ .CACHE_DIR }}"
+          NAME: "{{ .ITEM }}"
+      - for:
+          var: OTHER_DICT_URLS
+        task: retrieve_url
+        vars:
+          URL: "{{ .ITEM }}"
+          DST_DIR: "{{ .CACHE_DIR }}"
+          NAME: "{{ .ITEM | osBase }}"
+
+  retrieve_gz:
+    cmds:
+      - curl -sL "{{ .URL }}" | gunzip > "{{ .DST_DIR }}/{{ .NAME }}"
+      - task: convert_to_utf8
+        vars:
+          FILE: "{{ .DST_DIR }}/{{ .NAME }}"
+
+  retrieve_tar_gz:
+    cmds:
+      - curl -sL "{{ .URL }}" | tar zx -C "{{ .DST_DIR }}" --strip-components {{ .STRIP_COMPONENTS | default 0 }} {{ .NAME }}
+      - for: { var: NAME, split: ' ' }
+        task: convert_to_utf8
+        vars:
+          FILE: "{{ .DST_DIR }}/{{ .ITEM | osBase }}"
+
+  retrieve_url:
+    cmds:
+      - curl -sL "{{ .URL }}" > "{{ .DST_DIR }}/{{ .NAME }}"
+      - task: "{{ if hasSuffix \"utf8\" .NAME }}noop{{ else }}convert_to_utf8{{ end }}"
+        vars:
+          FILE: "{{ .DST_DIR }}/{{ .NAME }}"
+
+  noop:
+
+  convert_to_utf8:
+    cmds:
+      - piconv -f euc-jp -t utf-8 < "{{ .FILE }}" > "{{ .FILE }}.utf8"
+
+  combine_dicts:
+    preconditions:
+      - sh: command -v skkdic-expr2 || brew install skktools
+    cmds:
+      - mkdir -p {{ .OUTPUT_DIR }}
+      - cd {{ .DST_DIR }} && skkdic-expr2 {{ .DICT_NAMES }} > {{ .FILE }}
+    deps:
+      - retrieve_dicts
+
+  yaskkserv2:
+    cmds:
+      - mkdir -p ~/.yaskkserv2 && yaskkserv2_make_dictionary --dictionary-filename="{{ .HOME }}/.yaskkserv2/dictionary" --utf8 "{{ .OUTPUT_DIR }}/{{ .COMBINED_FILE }}"
+      - pkill yaskkserv2
+      - brew services restart yaskkserv2
+
+  update_yaskkserv2:
+    cmds:
+      - brew tap waynezhang/tap && brew update
+      - brew install --HEAD yaskkserv2
+
+vars:
+  CACHE_DIR:
+    sh: echo $(mktemp -d -t skk)
+  OUTPUT_DIR:
+    sh: echo "$(pwd)/.build"
+  COMBINED_FILE: "SKK-JISYO.combined.utf8"
+  BIN_DIR: "~/bin"
+
+  DICTS:
+    - SKK-JISYO.L  # 基本辞書
+    - SKK-JISYO.jinmei # 人名、特に日本人の姓名
+    - SKK-JISYO.geo # 日本郵便株式会社データ
+    - SKK-JISYO.propernoun # 芸能・音楽・企業・アニメなど
+    - SKK-JISYO.station # 駅名・路線名・鉄道会社名およびその他の鉄道用語の専門辞書
+    # プラス
+    - SKK-JISYO.fullname # 人名録。姓と名に分離したものは SKK-JISYO.jinmei に
+    - SKK-JISYO.law # 法律用語電子化辞書
+    - SKK-JISYO.okinawa # 沖縄辞書
+    - SKK-JISYO.china_taiwan # 中国、台湾の地名
+    # 特殊変換
+    - SKK-JISYO.assoc # 見出し語と候補との間に一定の連想関係があるエントリ。大量の略語を含んでいる。
+    # 特殊
+    - SKK-JISYO.JIS2 # JIS 第二水準の文字
+    - SKK-JISYO.JIS3_4 # JIS 第三、第四水準の文字
+    - SKK-JISYO.JIS2004 # JIS X 0213 の 2004 年改正で追加された「表外漢字 UCS 互換」10 文字
+    - SKK-JISYO.itaiji # 異体字変換
+    - SKK-JISYO.itaiji.JIS3_4 # itaiji の JIS 第３・第４水準版
+    - SKK-JISYO.mazegaki # 交ぜ書き
+    # 編纂
+    - SKK-JISYO.wrong.annotated # 間違えて含まれていたエントリ
+  EDICTS:
+    - SKK-JISYO.edict # abbrev
+  ZIPCODE_DICTS: 
+    - SKK-JISYO.zipcode
+    - SKK-JISYO.office.zipcode
+  OTHER_DICT_URLS:
+    - "https://github.com/uasi/skk-emoji-jisyo/raw/refs/heads/master/SKK-JISYO.emoji.utf8"
