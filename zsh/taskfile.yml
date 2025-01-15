@@ -1,0 +1,21 @@
+version: '3'
+
+silent: false
+
+tasks:
+  default:
+    - task: link
+
+  link:
+    cmds:
+      - ln -s "{{ .PWD }}/files/zshrc" {{ .TARGET }}
+      - ln -s "{{ .PWD }}/files/zsh.d" {{ .DTARGET }}
+
+  unlink:
+    cmds:
+      - rm "{{ .TARGET }}"
+      - rm -rf "{{ .DTARGET }}"
+
+vars:
+  TARGET: "{{ .HOME }}/.zshrc"
+  DTARGET: "{{ .HOME }}/.zsh.d"
