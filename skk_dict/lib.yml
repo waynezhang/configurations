@@ -1,0 +1,74 @@
+version: 3
+
+tasks:
+
+  download_dict:
+    internal: true
+    requires:
+      vars: [ URL, TMP_DIR ]
+    vars:
+      TMP_DIR: "{{ .TMP_DIR | default \"./tmp\"}}"
+      DST_FILE: "{{ .TMP_DIR }}/{{ osBase .URL }}"
+      GUNZIPPED_FILE: "{{ trimSuffix \".gz\" .DST_FILE}}"
+      UNTARED_FILE: "{{ trimSuffix \".tar\" .GUNZIPPED_FILE}}"
+      UTF8_FILE: "{{ trimSuffix \".utf8\" .UNTARED_FILE }}.utf8"
+    cmds:
+      - echo -n "Downloading {{ .DST_FILE | osBase }}" 
+      - task: download_file
+        vars:
+          URL: "{{ .URL }}"
+          DST_FILE: "{{ .DST_FILE }}"
+      - task: "{{ if hasSuffix \".gz\" .DST_FILE }}gunzip{{ else }}noop{{end}}"
+        vars:
+          FILE: "{{ .DST_FILE }}"
+      - task: "{{ if hasSuffix \".tar\" .GUNZIPPED_FILE }}untar{{ else }}noop{{end}}"
+        vars:
+          SRC_FILE: "{{ .GUNZIPPED_FILE }}"
+          FILE: "{{ .UNTARED_FILE | osBase }}"
+      - task: "{{ if hasSuffix \".utf8\" .UNTARED_FILE }}noop{{ else }}convert_to_utf8{{ end }}"
+        vars:
+          SRC_FILE: "{{ .UNTARED_FILE }}"
+          DST_FILE: "{{ .UTF8_FILE }}"
+      - echo -n " -> "
+      - task: count_entires
+        vars:
+          FILE: "{{ .UTF8_FILE }}"
+
+  gunzip:
+    internal: true
+    requires:
+      vars: [ FILE ]
+    cmds:
+      - gunzip "{{ .FILE }}"
+
+  untar:
+    internal: true
+    requires:
+      vars: [ SRC_FILE, FILE ]
+    cmds:
+      - tar xf "{{ .SRC_FILE }}" -C "{{ .SRC_FILE | osDir }}" "{{ .FILE }}"
+
+  download_file:
+    internal: true
+    requires:
+      vars: [ URL, DST_FILE ]
+    cmds:
+      - curl -sL --fail "{{ .URL }}" > "{{ .DST_FILE }}"
+
+  convert_to_utf8:
+    internal: true
+    requires:
+      vars: [ SRC_FILE, DST_FILE ]
+    cmds:
+      - piconv -f euc-jp -t utf-8 < "{{ .SRC_FILE }}" > "{{ .DST_FILE }}"
+
+  count_entires:
+    internal: true
+    requires:
+      vars: [ FILE ]
+    cmds:
+      - echo "$(skkdic-count {{ .FILE }} | awk '{ print $2 }') entires"
+
+  noop:
+    internal: true
+    cmds:
