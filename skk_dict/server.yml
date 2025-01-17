@@ -8,12 +8,13 @@ tasks:
     requires:
       vars: [ SERVER_DICT_FILE, SKK_FILE ]
     cmds:
-      - echo -n "Generating {{ .SERVER_DICT_FILE | osBase }}"
+      - echo "Generating {{ .SERVER_DICT_FILE | osBase }}"
       - yaskkserv2_make_dictionary --dictionary-filename="{{ .SERVER_DICT_FILE }}" --utf8 "{{ .SKK_FILE }}"
-      - echo -n " -> "
-      - task: lib:count_entires
+      - task: lib:verify_candidates
         vars:
-          FILE: "{{ .SERVER_DICT_FILE }}"
+          FILE1: "{{ .SKK_FILE }}"
+          FILE2: "{{ .SERVER_DICT_FILE }}"
+      - echo "Created dictionary with $(skkdic-count {{ .SERVER_DICT_FILE }} | awk '{ print $2 }') candidates."
 
   update_server_dict:
     desc: "Update the production dictionary of yaskkserv2"

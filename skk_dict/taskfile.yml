@@ -61,12 +61,9 @@ tasks:
     requires:
       vars: [ DICT_FILES, DST_FILE ]
     cmds:
-      - echo -n "Generating {{ .DST_FILE | osBase }}"
-      - skkdic-expr2 {{ .DICT_FILES }} > "{{ .DST_FILE }}"
-      - echo -n " -> "
-      - task: lib:count_entires
-        vars:
-          FILE: "{{ .DST_FILE }}"
+      - echo "Generating {{ .DST_FILE | osBase }}"
+      - 'echo ";; -*- mode: fundamental; coding: utf-8 -*-" > "{{ .DST_FILE }}"'
+      - skkdic-expr2 {{ .DICT_FILES }} >> "{{ .DST_FILE }}"
 
   restore_user_dict:
     desc: "Backup macSKK user dictionary"
@@ -82,7 +79,7 @@ tasks:
     run: once
     cmds:
       - command -v skkdic-expr2 > /dev/null || brew install skktools
-      - command -v yskkserv2 > /dev/null || (brew tap waynezhang/tap && brew install --HEAD yaskkserv2)
+      - command -v yaskkserv2 > /dev/null || (brew tap waynezhang/tap && brew install --HEAD yaskkserv2)
       - command -v age > /dev/null || brew install age
 
 vars:

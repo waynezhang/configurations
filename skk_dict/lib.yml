@@ -13,7 +13,7 @@ tasks:
       UNTARED_FILE: "{{ trimSuffix \".tar\" .GUNZIPPED_FILE}}"
       UTF8_FILE: "{{ trimSuffix \".utf8\" .UNTARED_FILE }}.utf8"
     cmds:
-      - echo -n "Downloading {{ .DST_FILE | osBase }}" 
+      - echo "Downloading {{ .DST_FILE | osBase }}" 
       - task: download_file
         vars:
           URL: "{{ .URL }}"
@@ -29,10 +29,10 @@ tasks:
         vars:
           SRC_FILE: "{{ .UNTARED_FILE }}"
           DST_FILE: "{{ .UTF8_FILE }}"
-      - echo -n " -> "
-      - task: count_entires
+      - task: verify_candidates
         vars:
-          FILE: "{{ .UTF8_FILE }}"
+          FILE1: "{{ .UNTARED_FILE }}"
+          FILE2: "{{ .UTF8_FILE }}"
 
   gunzip:
     internal: true
@@ -62,12 +62,22 @@ tasks:
     cmds:
       - piconv -f euc-jp -t utf-8 < "{{ .SRC_FILE }}" > "{{ .DST_FILE }}"
 
-  count_entires:
+  verify_candidates:
     internal: true
     requires:
-      vars: [ FILE ]
+      vars: [FILE1, FILE2]
     cmds:
-      - echo "$(skkdic-count {{ .FILE }} | awk '{ print $2 }') entires"
+      - |
+        RED='\033[0;31m'
+        NC='\033[0m'
+        COUNT1=$(skkdic-count {{ .FILE1 }} | awk '{ print $2 }')
+        COUNT2=$(skkdic-count {{ .FILE2 }} | awk '{ print $2 }')
+        if [ "$COUNT1" != "$COUNT2" ]; then
+          echo -e "${RED}The candidates were lost in encoding change ($COUNT1 -> $COUNT2).${NC}"
+        fi
+        if [ "$COUNT2" = "0" ]; then
+          echo -e "${RED}Dictionary is empty.${NC}"
+        fi
 
   noop:
     internal: true
