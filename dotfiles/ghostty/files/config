@@ -16,6 +16,7 @@ macos-titlebar-style = tabs
 keybind=clear
 keybind = ctrl+g>,=reload_config
 keybind = ctrl+g>c=new_window
+keybind = ctrl+g>t=new_tab
 keybind = ctrl+g>shift+5=new_split:right
 keybind = ctrl+g>shift+2=new_split:down
 keybind = ctrl+g>l=goto_split:right

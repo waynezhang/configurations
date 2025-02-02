@@ -4,6 +4,7 @@
 	rebase = true
 [alias]
 	up = pull --rebase --autostash
+	pu = !git push -u origin $(git symbolic-ref --short HEAD)
 [user]
 	name = Linghua Zhang
 	email = linghua.zhang@me.com

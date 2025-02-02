@@ -22,6 +22,7 @@ alt-q = 'workspace Q'
 alt-s = 'workspace S'
 alt-w = 'workspace W'
 alt-x = 'workspace X'
+alt-z = 'workspace Z'
 
 alt-shift-1 = 'move-node-to-workspace 1'
 alt-shift-2 = 'move-node-to-workspace 2'
@@ -35,6 +36,7 @@ alt-shift-q = 'move-node-to-workspace Q'
 alt-shift-s = 'move-node-to-workspace S'
 alt-shift-w = 'move-node-to-workspace W'
 alt-shift-x = 'move-node-to-workspace X'
+alt-shift-z = 'move-node-to-workspace Z'
 
 alt-tab = 'workspace-back-and-forth'
 alt-shift-tab = 'move-workspace-to-monitor next --wrap-around'
@@ -100,3 +102,7 @@ run = 'move-node-to-workspace X'
 [[on-window-detected]]
 if.app-id = 'com.openai.chat'
 run = 'move-node-to-workspace C'
+
+[[on-window-detected]]
+if.app-id = 'dev.zed.Zed-Preview'
+run = 'move-node-to-workspace Z'

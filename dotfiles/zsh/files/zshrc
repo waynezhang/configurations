@@ -42,6 +42,8 @@ bindkey "^Xz" zce
 zstyle ':zce:*' fg 'fg=red,bold'
 zstyle ':zce:*' bg 'fg=white'
 
+zinit ice silent wait'!0'; zinit light ziglang/shell-completions
+
 function zsh_highlight_setup {
   ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
   ZSH_HIGHLIGHT_PATTERNS+=('rm -rf [~/]*' 'fg=white,bold,bg=red')
