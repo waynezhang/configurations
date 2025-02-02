@@ -1,0 +1,28 @@
+version: '3'
+
+silent: false
+
+tasks:
+  default:
+    - task: link
+
+  link:
+    cmds:
+      - ln -s "{{ .PWD }}/files/toyskkserv.yml" {{ .TARGET }}
+
+  unlink:
+    cmds:
+      - rm "{{ .TARGET }}"
+
+  restore_user_dict:
+    desc: "Backup dictionary"
+    cmds:
+      - age -d -o "{{ .PWD }}/files/mercari.utf8" ~/.local/skk-local-dicts/mercari.utf8
+
+  backup_user_dict:
+    desc: "Restore user dictionary"
+    cmds:
+      - age -p -o "{{ .PWD }}/files/mercari.utf8" ~/.local/skk-local-dicts/mercari.utf8
+
+vars:
+  TARGET: "{{ .HOME }}/.config/toyskkserv.yml"
