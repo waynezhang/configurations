@@ -1,0 +1,53 @@
+local wezterm = require 'wezterm';
+
+return {
+  font = wezterm.font("Essential PragmataPro"),
+  font_size = 12,
+  line_height = 1.1,
+  enable_tab_bar = false,
+  colors = { -- snazzy with black background
+    foreground = "#ebece6",
+    background = "#000000",
+    cursor_bg = "#97979B",
+    cursor_border = "#e4e4e4",
+    cursor_fg = "#f6f6f6",
+    selection_bg = "#81aec6",
+    selection_fg = "#000000",
+    ansi = { "#000000", "#fc4346", "#50fb7c", "#f0fb8c", "#49baff", "#fc4cb4", "#8be9fe", "#ededec" },
+    brights = { "#555555", "#fc4346", "#50fb7c", "#f0fb8c", "#49baff", "#fc4cb4", "#8be9fe", "#ededec" },
+  },
+  window_decorations = "RESIZE",
+  window_frame = {
+    border_top_height = '0.5cell',
+  },
+  ssh_domains = {
+    {
+      name = 'mini',
+      remote_address = '192.168.11.12',
+      username = 'wayne',
+      multiplexing = 'None',
+    },
+  },
+  disable_default_key_bindings = true,
+  leader = { key = 'g', mods = 'CTRL', timeout_milliseconds = 997 },
+  keys = {
+    { key = 'p',          mods = 'LEADER',     action = wezterm.action.ActivateCommandPalette },
+    { key = '%',          mods = 'LEADER',     action = wezterm.action.SplitHorizontal { domain = 'CurrentPaneDomain' } },
+    { key = '"',          mods = 'LEADER',     action = wezterm.action.SplitVertical { domain = 'CurrentPaneDomain' } },
+    { key = 'c',          mods = 'LEADER',     action = wezterm.action.SpawnTab 'CurrentPaneDomain' },
+    { key = 'c',          mods = 'SUPER',      action = wezterm.action.CopyTo 'Clipboard' },
+    { key = 'v',          mods = 'SUPER',      action = wezterm.action.PasteFrom 'Clipboard' },
+    { key = '{',          mods = 'SUPER',      action = wezterm.action.ActivateTabRelative(-1) },
+    { key = '}',          mods = 'SUPER',      action = wezterm.action.ActivateTabRelative(1) },
+    { key = 'w',          mods = 'SUPER',      action = wezterm.action.CloseCurrentTab { confirm = true } },
+    { key = 'n',          mods = 'SUPER',      action = wezterm.action.SpawnWindow },
+    { key = 'LeftArrow',  mods = 'SUPER',      action = wezterm.action.ActivateWindowRelative(-1) },
+    { key = 'RightArrow', mods = 'SUPER',      action = wezterm.action.ActivateWindowRelative(1) },
+    { key = 'h',          mods = 'LEADER',     action = wezterm.action.ActivatePaneDirection 'Left' },
+    { key = 'l',          mods = 'LEADER',     action = wezterm.action.ActivatePaneDirection 'Right' },
+    { key = 'k',          mods = 'LEADER',     action = wezterm.action.ActivatePaneDirection 'Up' },
+    { key = 'j',          mods = 'LEADER',     action = wezterm.action.ActivatePaneDirection 'Down' },
+    { key = 'f',          mods = 'SUPER',      action = wezterm.action.Search { CaseSensitiveString = '' } },
+    { key = 'x',          mods = 'CTRL|SHIFT', action = wezterm.action.ActivateCopyMode },
+  },
+}
