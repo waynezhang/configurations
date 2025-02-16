@@ -18,3 +18,5 @@
 	template = ~/.config/git/template
 [core]
 	excludesfile = ~/.gitignore_global
+[diff]
+    external = difft
