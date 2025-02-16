@@ -4,7 +4,7 @@ export COLOR_NC='\033[0m'
 export COLOR_RED='\033[0;31m'
 export COLOR_GREEN='\033[0;32m'
 
-DOT="$PWD/dotfile"
+DOT="$PWD/../scripts/dotfile"
 
 while IFS= read -r -d '' dir; do
   dir=$(dirname "$dir")
