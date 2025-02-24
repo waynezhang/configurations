@@ -4,7 +4,9 @@ return {
   font = wezterm.font("Essential PragmataPro"),
   font_size = 12,
   line_height = 1.1,
-  enable_tab_bar = false,
+  enable_tab_bar = true,
+  use_fancy_tab_bar = false,
+  show_new_tab_button_in_tab_bar = false,
   colors = { -- snazzy with black background
     foreground = "#ebece6",
     background = "#000000",
@@ -15,6 +17,22 @@ return {
     selection_fg = "#000000",
     ansi = { "#000000", "#fc4346", "#50fb7c", "#f0fb8c", "#49baff", "#fc4cb4", "#8be9fe", "#ededec" },
     brights = { "#555555", "#fc4346", "#50fb7c", "#f0fb8c", "#49baff", "#fc4cb4", "#8be9fe", "#ededec" },
+    tab_bar = {
+      background = 'none',
+      active_tab = {
+        bg_color = 'none',
+        fg_color = '#bbbbbb',
+      },
+      inactive_tab = {
+        bg_color = 'none',
+        fg_color = '#666666',
+      },
+      inactive_tab_hover = {
+        bg_color = 'none',
+        fg_color = '#aaaaaa',
+        italic = false,
+      },
+    },
   },
   window_decorations = "RESIZE",
   window_frame = {

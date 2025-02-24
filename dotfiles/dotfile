@@ -1,0 +1,10 @@
+;; root dotfile for dotr
+
+include:aerospace/dotfile
+include:git/dotfile
+include:hammerspoon/dotfile
+include:nvim/dotfile
+include:starship/dotfile
+include:toyskkserv/dotfile
+include:wezterm/dotfile
+include:zsh/dotfile

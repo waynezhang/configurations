@@ -1,0 +1,3 @@
+link:files/gitconfig:~/.gitconfig
+link:files/gitignore_global:~/.gitignore_global
+link:files/template:~/.config/git/template
