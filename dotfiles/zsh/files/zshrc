@@ -20,7 +20,7 @@ export CLICOLOR=1
 export LSCOLORS="gxfxcxdxbxegedabagacad"
 export GPG_TTY=$(tty)
 
-export PATH=/usr/local/share/npm/bin:/usr/local/bin:/usr/local/sbin:/usr/libexec:~/go/bin:$PATH
+export PATH=/usr/local/bin:/usr/local/sbin:/usr/libexec:~/go/bin:~/bin:$PATH
 
 # plugins
 
