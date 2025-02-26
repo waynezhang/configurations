@@ -20,3 +20,10 @@
 	excludesfile = ~/.gitignore_global
 [diff]
     external = difft
+[column]
+	ui = auto
+[push]
+	autoSetupRemote = true
+	default = simple
+[merge]
+	conflictstyle = zdiff3
