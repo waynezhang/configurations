@@ -29,6 +29,5 @@
         // # その他
         .{ .url = "https://github.com/uasi/skk-emoji-jisyo/raw/refs/heads/master/SKK-JISYO.emoji.utf8" }, // emoji
         .{ .url = "https://github.com/tsuyoshicho/SKK-JISYO.emoji-ja/raw/refs/heads/master/SKK-JISYO.emoji-ja.utf8" }, // emoji-ja
-        .{ .url = "~/.local/skk-local-dicts/mercari.utf8" },
     },
 }
