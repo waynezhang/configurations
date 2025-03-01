@@ -54,9 +54,6 @@ return {
       require 'lspconfig'.html.setup {
         capabilities = capabilities,
       }
-      require 'lspconfig'.htmx.setup {
-        capabilities = capabilities,
-      }
     end
   },
   { 'neovim/nvim-lspconfig' },
