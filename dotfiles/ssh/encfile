@@ -1,0 +1,1 @@
+decrypt files/config.enc:~/.ssh/config
