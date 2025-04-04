@@ -1,6 +1,6 @@
 .{
     .dictionary_directory = "~/.local/skk-dicts",
-    .listen_addr = "127.0.0.1:1179",
+    .listen_addr = "[::1]:1179",
     .fallback_to_google = true,
     .dictionaries = .{
         .{ .url = "https://skk-dev.github.io/dict/SKK-JISYO.L.gz" }, // 基本辞書
@@ -24,10 +24,21 @@
         .{ .url = "https://skk-dev.github.io/dict/SKK-JISYO.mazegaki.gz" }, // 交ぜ書き
         // # 編纂
         .{ .url = "https://skk-dev.github.io/dict/SKK-JISYO.wrong.annotated.gz" }, // 間違えて含まれていたエントリ
-        .{ .url = "https://skk-dev.github.io/dict/SKK-JISYO.edict.tar.gz", .files = "SKK-JISYO.edict" }, // abbrev
-        // .{ .url = "https://skk-dev.github.io/dict/zipcode.tar.gz", .files = "zipcode/SKK-JISYO.zipcode, zipcode/SKK-JISYO.office.zipcode" },
+        .{
+            .url = "https://skk-dev.github.io/dict/SKK-JISYO.edict.tar.gz",
+            .files = .{
+                "SKK-JISYO.edict",
+            },
+        }, // abbrev
+        .{
+            .url = "https://skk-dev.github.io/dict/zipcode.tar.gz",
+            .files = .{
+                "zipcode/SKK-JISYO.zipcode",
+                "zipcode/SKK-JISYO.office.zipcode",
+            },
+        },
         // # その他
         .{ .url = "https://github.com/uasi/skk-emoji-jisyo/raw/refs/heads/master/SKK-JISYO.emoji.utf8" }, // emoji
-        .{ .url = "https://github.com/tsuyoshicho/SKK-JISYO.emoji-ja/raw/refs/heads/master/SKK-JISYO.emoji-ja.utf8" }, // emoji-ja
+        .{ .url = "https://github.com/arrow2nd/skk-jisyo-emoji-ja/raw/refs/heads/main/skk-jisyo-emoji-ja.utf8" }, // emoji-ja
     },
 }

@@ -1,1 +1,1 @@
-encrypt ~/Library/Containers/net.mtgto.inputmethod.macSKK/Data/Documents/Dictionaries/skk-jisyo.utf8:files/skk-jisyo.utf8.age
+decrypt files/skk-jisyo.utf8.age:~/Library/Containers/net.mtgto.inputmethod.macSKK/Data/Documents/Dictionaries/skk-jisyo.utf8
