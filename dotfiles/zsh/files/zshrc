@@ -25,6 +25,7 @@ export PATH=/usr/local/bin:/usr/local/sbin:/usr/libexec:~/go/bin:~/bin:$PATH
 # plugins
 
 source $HOMEBREW_PREFIX/opt/zinit/zinit.zsh
+export HOMEBREW_NO_AUTO_UPDATE=true
 
 zinit ice silent wait'!0'; zinit light zsh-users/zsh-history-substring-search
 bindkey '^P' history-substring-search-up
