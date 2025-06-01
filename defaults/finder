@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+# Show path bar
+defaults write com.apple.finder ShowPathbar -bool true
+# List view by default
+defaults write com.apple.finder FXPreferredViewStyle -string "Nlsv"
+# Show folder first
+defaults write com.apple.finder _FXSortFoldersFirstOnDesktop -bool true
+defaults write com.apple.finder _FXSortFoldersFirst -bool true
+# Default search scope to current folder
+defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
+
+killall Finder

@@ -1,0 +1,6 @@
+sh sh docker
+sh sh finder
+sh sh keyboard
+sh sh menubar
+sh killall Finder
+sh killall Dock

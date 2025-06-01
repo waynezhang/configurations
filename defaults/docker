@@ -1,14 +1,7 @@
 #!/usr/bin/env bash
 
-# dock
 defaults write com.apple.dock persistent-apps -array
 defaults write com.apple.dock autohide -bool true
 defaults write com.apple.dock static-only -bool true
 defaults write com.apple.dock tilesize -int 48
 defaults write com.apple.dock show-recents -bool false
-
-# menu bar spacing
-defaults -currentHost write -globalDomain NSStatusItemSpacing -int 10
-defaults -currentHost write -globalDomain NSStatusItemSelectionPadding -int 6
-
-killall Dock

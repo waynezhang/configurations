@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+# Hide IME indicator
+defaults write kCFPreferencesAnyApplication TSMLanguageIndicatorEnabled -bool "false"
+# Disable held down
+defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
+# Moving focus with Tab
+defaults write NSGlobalDomain AppleKeyboardUIMode -int 2
