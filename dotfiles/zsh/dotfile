@@ -1,2 +1,4 @@
 link files/zshrc:~/.zshrc
 link files/zsh.d:~/.zsh.d
+sh mkdir ~/bin > /dev/null 2>&1
+link ../../bin/tty_gpg:~/bin/tty_gpg

@@ -1,0 +1,3 @@
+#!/bin/sh
+set -- --pinentry-mode loopback "$@"
+exec $HOMEBREW_PREFIX/bin/gpg "$@"

@@ -27,3 +27,5 @@
 	default = simple
 [merge]
 	conflictstyle = zdiff3
+[gpg]
+  program = tty_gpg
