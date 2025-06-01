@@ -27,6 +27,8 @@ spoon.SpoonInstall:andUse("URLDispatcher",
         { "https?://.*zapier%.com",                                "com.google.Chrome" },
         { "https?://merpay%-corp%-question%-jp%.firebaseapp%.com", "com.google.Chrome" },
         { "https?://app%.datadoghq%.com",                          "com.google.Chrome" },
+        { "https?://app%.firehydrant%.io",                         "com.google.Chrome" },
+        { "https?://mercari%.pagerduty%.com",                      "com.google.Chrome" },
       },
     },
     start = true
