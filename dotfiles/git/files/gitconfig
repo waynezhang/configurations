@@ -8,6 +8,7 @@
 [user]
 	name = Linghua Zhang
 	email = linghua.zhang@me.com
+	signingkey = ~/.ssh/id_rsa.pub
 [init]
 	defaultBranch = main
 [credential]
@@ -16,6 +17,7 @@
 	helper = /usr/local/share/gcm-core/git-credential-manager
 [commit]
 	template = ~/.config/git/template
+	gpgsign = true
 [core]
 	excludesfile = ~/.gitignore_global
 [diff]
@@ -28,4 +30,4 @@
 [merge]
 	conflictstyle = zdiff3
 [gpg]
-  program = tty_gpg
+	format = ssh
