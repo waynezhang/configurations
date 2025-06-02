@@ -4,9 +4,10 @@ return {
     config = function() require('neodev').setup({}) end,
     dependencies = { 'neovim/nvim-lspconfig' }
   },
-  { 'williamboman/mason.nvim', config = function() require('mason').setup() end },
+  { 'williamboman/mason.nvim', version = "^1.0.0", config = function() require('mason').setup() end },
   {
     'williamboman/mason-lspconfig.nvim',
+    version = "^1.0.0",
     config = function()
       require('mason-lspconfig').setup()
 
