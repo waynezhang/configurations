@@ -1,12 +1,15 @@
 start-at-login = true
 
-gaps.inner.horizontal = 2
-gaps.inner.vertical = 2
+automatically-unhide-macos-hidden-apps = true
 
-gaps.outer.left = 2
-gaps.outer.bottom = 2
-gaps.outer.top = 2
-gaps.outer.right = 2
+[gaps]
+inner.horizontal = 2
+inner.vertical = 2
+
+outer.left = 2
+outer.bottom = 2
+outer.top = 2
+outer.right = 2
 
 [mode.main.binding]
 alt-ctrl-slash = 'mode cmd'
@@ -18,25 +21,22 @@ alt-9 = 'workspace 9'
 alt-c = 'workspace C'
 alt-g = 'workspace G'
 alt-m = 'workspace M'
+alt-n = 'workspace N'
 alt-q = 'workspace Q'
 alt-s = 'workspace S'
 alt-w = 'workspace W'
-alt-x = 'workspace X'
-alt-z = 'workspace Z'
 
 alt-shift-1 = 'move-node-to-workspace 1'
 alt-shift-2 = 'move-node-to-workspace 2'
 alt-shift-3 = 'move-node-to-workspace 3'
-alt-shift-4 = 'move-node-to-workspace 4'
 alt-shift-9 = 'move-node-to-workspace 9'
 alt-shift-c = 'move-node-to-workspace C'
 alt-shift-g = 'move-node-to-workspace G'
 alt-shift-m = 'move-node-to-workspace M'
+alt-shift-n = 'move-node-to-workspace N'
 alt-shift-q = 'move-node-to-workspace Q'
 alt-shift-s = 'move-node-to-workspace S'
 alt-shift-w = 'move-node-to-workspace W'
-alt-shift-x = 'move-node-to-workspace X'
-alt-shift-z = 'move-node-to-workspace Z'
 
 alt-tab = 'workspace-back-and-forth'
 alt-shift-tab = 'move-workspace-to-monitor next --wrap-around'
@@ -93,10 +93,15 @@ run = 'move-node-to-workspace 9'
 if.app-id = 'com.electron.logseq'
 run = 'move-node-to-workspace Q'
 
-# Xcode
+# Logseq Database
 [[on-window-detected]]
-if.app-id = 'com.apple.dt.Xcode'
-run = 'move-node-to-workspace X'
+if.app-id = 'com.logseq.logseq'
+run = 'move-node-to-workspace Q'
+
+# Obsidian
+[[on-window-detected]]
+if.app-id = 'md.obsidian'
+run = 'move-node-to-workspace Q'
 
 # ChatGPT
 [[on-window-detected]]
@@ -114,5 +119,5 @@ if.app-id = 'com.todesktop.230313mzl4w4u92'
 run = 'move-node-to-workspace C'
 
 [[on-window-detected]]
-if.app-id = 'dev.zed.Zed-Preview'
-run = 'move-node-to-workspace Z'
+if.app-id = 'notion.id'
+run = 'move-node-to-workspace N'
