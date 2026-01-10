@@ -4,10 +4,17 @@ return {
     config = function() require('neodev').setup({}) end,
     dependencies = { 'neovim/nvim-lspconfig' }
   },
-  { 'williamboman/mason.nvim', version = "^1.0.0", config = function() require('mason').setup() end },
+  {
+    'williamboman/mason.nvim',
+    version = "^2.0.0",
+    config = function()
+      require('mason')
+          .setup()
+    end
+  },
   {
     'williamboman/mason-lspconfig.nvim',
-    version = "^1.0.0",
+    version = "^2.0.0",
     config = function()
       require('mason-lspconfig').setup()
 
@@ -33,31 +40,19 @@ return {
         set_normal_keymap('<space>d', 'vim.diagnostic.open_float()')
       end
 
-      local nvim_lsp = require('lspconfig')
-      local mason_lspconfig = require('mason-lspconfig')
-      mason_lspconfig.setup_handlers({
-        function(server_name)
-          local opts = {}
-          opts.on_attach = on_attach
-          nvim_lsp[server_name].setup(opts)
-        end
+      vim.api.nvim_create_autocmd("LspAttach", {
+        callback = function(args)
+          local client = vim.lsp.get_client_by_id(args.data.client_id)
+          if not client then
+            return
+          end
+
+          on_attach(_, args.buf)
+        end,
       })
-
-      require 'lspconfig'.sourcekit.setup {
-        on_attach = on_attach,
-        cmd = { 'sourcekit-lsp' },
-        root_dir = nvim_lsp.util.root_pattern("Package.swift", ".git", "Project.swift"),
-      }
-
-      local capabilities = vim.lsp.protocol.make_client_capabilities()
-      capabilities.textDocument.completion.completionItem.snippetSupport = true
-
-      require 'lspconfig'.html.setup {
-        capabilities = capabilities,
-      }
     end
   },
   { 'neovim/nvim-lspconfig' },
   { 'mfussenegger/nvim-dap' },
-  { 'folke/trouble.nvim',      dependencies = { 'nvim-tree/nvim-web-devicons' } },
+  { 'folke/trouble.nvim',   dependencies = { 'nvim-tree/nvim-web-devicons' } },
 }
