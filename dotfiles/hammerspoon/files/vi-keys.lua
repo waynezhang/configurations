@@ -10,8 +10,11 @@ local watchable  = require "hs.watchable"
 
 local keyHandler = function(e)
   local watchFor = { h = "left", j = "down", k = "up", l = "right" }
+  local scrollFor = { y = { 10, 0 }, u = { 0, -10 }, i = { 0, 10 }, o = { -10, 0 } }
   local actualKey = e:getCharacters(true)
   local replacement = watchFor[actualKey:lower()]
+  local scrollAction = scrollFor[actualKey:lower()]
+
   if replacement then
     local isDown = e:getType() == event.types.keyDown
     local flags  = {}
@@ -29,6 +32,15 @@ local keyHandler = function(e)
         e:getProperty(event.properties.keyboardEventAutorepeat))
     end
     return true, { replacementEvent }
+  elseif scrollAction then
+    local isDown = e:getType() == event.types.keyDown
+    if isDown then -- only scroll on key down to avoid double scrolling
+      if module.debugging then print("viKeys: scroll " .. actualKey, scrollAction[1], scrollAction[2]) end
+      local scrollEvent = event.newScrollEvent(scrollAction, {}, "line")
+      return true, { scrollEvent }
+    else
+      return true -- consume key up event but don't generate scroll
+    end
   else
     return false -- do nothing to the event, just pass it along
   end

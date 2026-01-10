@@ -1,8 +1,16 @@
+hs.window.animationDuration = 0
 hs.loadSpoon("SpoonInstall")
 
-require "viKeys"
+require "vi-keys"
 require "yen-key"
 require "url-dispatch"
+require "caffeinate"
+require "display-layout"
+require "reload"
+require "spotify"
 
--- disable animation
-hs.window.animationDuration = 0
+spoon.SpoonInstall:andUse("MouseCircle", {
+  hotkeys = {
+    show = { { "cmd", "shift" }, "m" }
+  }
+})
