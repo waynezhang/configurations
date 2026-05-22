@@ -1,5 +1,3 @@
 require('common')
 require('options')
 require('keymappings')
-require('package-manager')
-require('plugins')

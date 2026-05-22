@@ -14,6 +14,3 @@ require('common').set_options({
   backup = false,
   writebackup = false,
 })
-
--- Objective C file type fix
-vim.cmd("let filetype_m = 'objc'")
