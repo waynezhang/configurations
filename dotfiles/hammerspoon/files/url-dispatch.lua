@@ -1,7 +1,7 @@
 local currentBrowser = "Safari"
 local browsers = {
-  Safari = "com.apple.Safari",
-  Chrome = "com.google.Chrome"
+  Chrome = "com.google.Chrome",
+  Hammerspoon = "org.hammerspoon.Hammerspoon",
 }
 
 spoon.SpoonInstall:andUse("URLDispatcher",
@@ -21,6 +21,7 @@ spoon.SpoonInstall:andUse("URLDispatcher",
         { "https?://mercari%.atlassian%.net",                      "com.google.Chrome" },
         { "https?://.*figma%.com",                                 "com.google.Chrome" },
         { "https?://.*okta%.com",                                  "com.google.Chrome" },
+        { "https?://.*workos%.com",                                "com.google.Chrome" },
         { "https?://mercari%.looker%.com",                         "com.google.Chrome" },
         { "https?://mercari%.testrail%.",                          "com.google.Chrome" },
         { "https?://forms%.gle/*",                                 "com.google.Chrome" },
@@ -44,6 +45,7 @@ spoon.SpoonInstall:andUse("URLDispatcher",
         { "https?://.*kolide%.com",                                "com.google.Chrome" },
         { "https?://.*openai%.com",                                "com.google.Chrome" },
         { "https?://login%.tailscale%.com",                        "com.google.Chrome" },
+        { "https?://bigbrother%.merpay%.in",                       "com.google.Chrome" },
       },
     },
     start = true
@@ -51,15 +53,16 @@ spoon.SpoonInstall:andUse("URLDispatcher",
 )
 
 local function toggleBrowser()
-  if currentBrowser == "Safari" then
+  if currentBrowser == "Hammerspoon" then
     currentBrowser = "Chrome"
   else
-    currentBrowser = "Safari"
+    currentBrowser = "Hammerspoon"
   end
 
-  spoon.URLDispatcher.default_handler = browsers[currentBrowser]
+  hs.urlevent.setDefaultHandler("http", browsers[currentBrowser])
+  -- spoon.URLDispatcher.default_handler = browsers[currentBrowser]
 
   hs.alert.show("Default browser: " .. currentBrowser)
 end
 
-hs.hotkey.bind({"cmd", "shift"}, "b", toggleBrowser)
+hs.hotkey.bind({ "cmd", "shift" }, "b", toggleBrowser)
