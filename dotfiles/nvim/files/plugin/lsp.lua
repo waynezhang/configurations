@@ -1,6 +1,7 @@
 vim.pack.add({
   'https://github.com/neovim/nvim-lspconfig',
   'https://github.com/folke/lazydev.nvim',
+  'https://github.com/joechrisellis/lsp-format-modifications.nvim',
 })
 
 vim.pack.add({
@@ -20,7 +21,8 @@ require('mason-lspconfig').setup()
 
 require('lazydev').setup()
 
-local on_attach = function(_, bufnr)
+
+local on_attach = function(client, bufnr)
   local function set_normal_keymap(from, to)
     local opts = { noremap = true, silent = true }
     vim.api.nvim_buf_set_keymap(bufnr, 'n', from, '<cmd> lua ' .. to .. '<CR>', opts)
@@ -40,6 +42,24 @@ local on_attach = function(_, bufnr)
   set_normal_keymap('gr', 'vim.lsp.buf.references()')
   set_normal_keymap('<space>f', 'vim.lsp.buf.format()')
   set_normal_keymap('<space>d', 'vim.diagnostic.open_float()')
+
+  local augroup_id = vim.api.nvim_create_augroup(
+    "FormatModificationsDocumentFormattingGroup",
+    { clear = false }
+  )
+  vim.api.nvim_clear_autocmds({ group = augroup_id, buffer = bufnr })
+
+  vim.api.nvim_create_autocmd(
+    { "BufWritePre" },
+    {
+      group = augroup_id,
+      buffer = bufnr,
+      callback = function()
+        local lsp_format_modifications = require"lsp-format-modifications"
+        lsp_format_modifications.format_modifications(client, bufnr)
+      end,
+    }
+  )
 end
 
 vim.api.nvim_create_autocmd("LspAttach", {
@@ -49,6 +69,6 @@ vim.api.nvim_create_autocmd("LspAttach", {
       return
     end
 
-    on_attach(_, args.buf)
+    on_attach(client, args.buf)
   end,
 })

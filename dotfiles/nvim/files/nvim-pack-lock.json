@@ -1,7 +1,7 @@
 {
   "plugins": {
     "autoclose.nvim": {
-      "rev": "bafd0368716216fa6a7bb2a43ecd889b44efdb46",
+      "rev": "27063904b2238ce7867e430885b6abcfb08357ea",
       "src": "https://github.com/m4xshen/autoclose.nvim"
     },
     "cmp-buffer": {
@@ -21,15 +21,15 @@
       "src": "https://github.com/hrsh7th/cmp-vsnip"
     },
     "code_runner.nvim": {
-      "rev": "eed10eb4953bc172d7652f30d289a4e575028a98",
+      "rev": "ae11f6cb469ee5547cd0e076ecb41d74a7322cb8",
       "src": "https://github.com/CRAG666/code_runner.nvim"
     },
     "conform.nvim": {
-      "rev": "dca1a190aa85f9065979ef35802fb77131911106",
+      "rev": "016802de402556da54c36bd7359b441266b01cdd",
       "src": "https://github.com/stevearc/conform.nvim"
     },
     "gitsigns.nvim": {
-      "rev": "dd3f588bacbeb041be6facf1742e42097f62165d",
+      "rev": "5be654f2232c10ddcad19c1607a67b6b4b78fc29",
       "src": "https://github.com/lewis6991/gitsigns.nvim"
     },
     "kanagawa.nvim": {
@@ -40,24 +40,28 @@
       "rev": "ff2cbcba459b637ec3fd165a2be59b7bbaeedf0d",
       "src": "https://github.com/folke/lazydev.nvim"
     },
+    "lsp-format-modifications.nvim": {
+      "rev": "1b307ec983f5e312d2ad9ff22b5e8084afea848f",
+      "src": "https://github.com/joechrisellis/lsp-format-modifications.nvim"
+    },
     "lualine.nvim": {
-      "rev": "131a558e13f9f28b15cd235557150ccb23f89286",
+      "rev": "221ce6b2d999187044529f49da6554a92f740a96",
       "src": "https://github.com/hoob3rt/lualine.nvim"
     },
     "mason-lspconfig.nvim": {
-      "rev": "eaa34887d444cb002e1b165fac399ae4bbc771f7",
+      "rev": "1b621470c01bd8190bb32a290d21575d3e6470c5",
       "src": "https://github.com/williamboman/mason-lspconfig.nvim"
     },
     "mason.nvim": {
-      "rev": "e54f5bf5f12c560da31c17eee5b3e1bd369f3ff9",
+      "rev": "2a6940af80375532e5e9e7c1f2fc6319a1b7a69d",
       "src": "https://github.com/williamboman/mason.nvim"
     },
     "matchit": {
-      "rev": "96324f9118612b2d124d08e310f2c065d123f189",
+      "rev": "5352d6d81e980a59ce88a82ab34cd1901a93a245",
       "src": "https://github.com/chrisbra/matchit"
     },
     "nvim-cmp": {
-      "rev": "a1d504892f2bc56c2e79b65c6faded2fd21f3eca",
+      "rev": "2ffe79f1f021def8dd1fcd81deb16f1bb0d989f3",
       "src": "https://github.com/hrsh7th/nvim-cmp"
     },
     "nvim-cursorline": {
@@ -65,11 +69,11 @@
       "src": "https://github.com/yamatsum/nvim-cursorline"
     },
     "nvim-lspconfig": {
-      "rev": "75e49cfa588a89ca667d767c0afef3ceac205faa",
+      "rev": "af9adce488c75ca0a81017945c2b7fa7b461bc23",
       "src": "https://github.com/neovim/nvim-lspconfig"
     },
     "nvim-treesitter": {
-      "rev": "4916d6592ede8c07973490d9322f187e07dfefac",
+      "rev": "8b98b4470eb326f1c7b50dae79f8c963568e5720",
       "src": "https://github.com/nvim-treesitter/nvim-treesitter"
     },
     "plenary.nvim": {
@@ -85,7 +89,7 @@
       "src": "https://github.com/nvim-telescope/telescope-symbols.nvim"
     },
     "telescope.nvim": {
-      "rev": "f04ab730b8f9c6bf3f54a206d0dcddfd70c52d59",
+      "rev": "40aedd8a68c78a656a10a8d62d80c54af59420fb",
       "src": "https://github.com/nvim-telescope/telescope.nvim"
     },
     "trouble.nvim": {
