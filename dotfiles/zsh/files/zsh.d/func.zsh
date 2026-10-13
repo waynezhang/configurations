@@ -8,6 +8,9 @@ alias dg='dotr git'
 
 alias unq='xattr -r -d com.apple.quarantine'
 
+alias wclaude='CLAUDE_CONFIG_DIR=~/.claude claude'
+alias pclaude='CLAUDE_CONFIG_DIR=~/.claude-personal claude'
+
 function gi() { curl -L -s https://www.gitignore.io/api/$@ ;}
 function gud() { GIT_COMMITTER_DATE="$1" GIT_AUTHOR_DATE="$1" git commit --amend --no-edit --date "$1" }
 
