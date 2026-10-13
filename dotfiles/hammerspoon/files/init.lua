@@ -8,6 +8,7 @@ require "caffeinate"
 require "display-layout"
 require "reload"
 require "spotify"
+require "gmail-unread"
 
 spoon.SpoonInstall:andUse("MouseCircle", {
   hotkeys = {
