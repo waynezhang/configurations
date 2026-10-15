@@ -1,2 +1,3 @@
 include toyskkserv/encfile
 include ssh/encfile
+include hammerspoon/encfile

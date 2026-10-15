@@ -1,2 +1,3 @@
 files/Spoons/*
 !files/Spoons/SpoonInstall.spoon
+files/url-patterns.lua
