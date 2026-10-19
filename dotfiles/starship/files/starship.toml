@@ -50,7 +50,7 @@ style = "bright-black"
 
 [custom.git_status]
 when = """
-[[ -n $(/usr/bin/git status -s --ignore-submodules=dirty -uno 2>/dev/null | tail -n 1) ]]
+[[ -n $(/Library/Developer/CommandLineTools/usr/bin/git status -s --ignore-submodules=dirty -uno 2>/dev/null) ]]
 """
 require_repo = true
 symbol = "✘ "

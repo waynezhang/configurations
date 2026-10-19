@@ -18,56 +18,49 @@ export EDITOR="vim"
 export GIT_EDITOR="vim"
 export CLICOLOR=1
 export LSCOLORS="gxfxcxdxbxegedabagacad"
-export GPG_TTY=$(tty)
+export GPG_TTY=$TTY
 
-export PATH=/opt/homebrew/opt/bison/bin:/usr/local/bin:/usr/local/sbin:/usr/libexec:~/go/bin:~/bin:~/.local/bin:$PATH
+export PATH=/opt/homebrew/bin:~/.local/share/mise/shims:/usr/local/bin:/usr/local/sbin:/usr/libexec:~/go/bin:~/bin:~/.local/bin:$PATH
+
+# prompt (sync, so the prompt isn't redrawn after startup)
+
+# use the real binary (the mise shim adds ~30ms per call) and a cached init script
+_starship=~/.local/share/mise/installs/starship/latest/starship
+_starship_init=${XDG_CACHE_HOME:-$HOME/.cache}/starship-init.zsh
+if [[ ! -s $_starship_init || $_starship -nt $_starship_init ]]; then
+  mkdir -p ${_starship_init:h} && PATH=${_starship:h}:$PATH $_starship init zsh --print-full-init > $_starship_init
+fi
+source $_starship_init
+unset _starship _starship_init
 
 # plugins
 
-source $HOMEBREW_PREFIX/opt/zinit/zinit.zsh
-export HOMEBREW_NO_AUTO_UPDATE=true
+source /opt/homebrew/opt/zinit/zinit.zsh
 
-zinit ice silent wait'!0'; zinit light zsh-users/zsh-history-substring-search
+zinit ice silent wait'0'; zinit light zsh-users/zsh-history-substring-search
 bindkey '^P' history-substring-search-up
 bindkey '^N' history-substring-search-down
 
-zinit ice silent wait'!0'; zinit light changyuheng/fz
-zinit ice silent wait'!0'; zinit light rupa/z
-zinit ice silent wait'!0'; zinit light zsh-users/zsh-completions
-zinit ice silent wait'!0'; zinit light wbingli/zsh-claudecode-completion
-zinit ice silent wait'!0'; zinit snippet OMZ::plugins/colored-man-pages
-zinit ice silent wait'!0'; zinit snippet OMZ::plugins/git/git.plugin.zsh
-zinit ice silent wait'!0'; zinit snippet OMZ::plugins/starship/starship.plugin.zsh
+zinit ice silent wait'0'; zinit light zsh-users/zsh-completions
+zinit ice silent wait'0'; zinit light wbingli/zsh-claudecode-completion
+zinit ice silent wait'0'; zinit snippet OMZ::plugins/git/git.plugin.zsh
 
-zinit ice slient wait'!0'; zinit light hchbaw/zce.zsh
+zinit ice silent wait'0'; zinit light hchbaw/zce.zsh
 bindkey "^Xz" zce
 zstyle ':zce:*' fg 'fg=red,bold'
 zstyle ':zce:*' bg 'fg=white'
-
-zinit ice silent wait'!0'; zinit light ziglang/shell-completions
 
 function zsh_highlight_setup {
   ZSH_HIGHLIGHT_HIGHLIGHTERS=(main brackets pattern cursor)
   ZSH_HIGHLIGHT_PATTERNS+=('rm -rf [~/]*' 'fg=white,bold,bg=red')
   ZSH_HIGHLIGHT_STYLES[path]=''
 }
-zinit ice silent wait'!0' atload'zsh_highlight_setup'; zinit light zsh-users/zsh-syntax-highlighting
+zinit ice silent wait'0' atinit'zicompinit; zicdreplay' atload'zsh_highlight_setup'; zinit light zsh-users/zsh-syntax-highlighting
 
 for conf in "$HOME/.zsh.d/"*.zsh; do
+  [[ "${conf:t}" == fzf.zsh ]] && continue
   source "${conf}"
 done
 unset conf
 
-# pnpm
-export PNPM_HOME="/Users/l-zhang/Library/pnpm"
-case ":$PATH:" in
-  *":$PNPM_HOME:"*) ;;
-  *) export PATH="$PNPM_HOME:$PATH" ;;
-esac
-# pnpm end
-# The next line updates PATH for the Google Cloud SDK.
-if [ -f '/opt/homebrew/share/google-cloud-sdk/path.zsh.inc' ]; then . '/opt/homebrew/share/google-cloud-sdk/path.zsh.inc'; fi
-
-# The next line enables shell command completion for gcloud.
-if [ -f '/opt/homebrew/share/google-cloud-sdk/completion.zsh.inc' ]; then . '/opt/homebrew/share/google-cloud-sdk/completion.zsh.inc'; fi
-export PATH="/opt/homebrew/opt/openjdk/bin:$PATH"
+zinit ice silent wait'0' atload'source "$HOME/.zsh.d/fzf.zsh"; eval "$(~/.local/bin/mise activate zsh)"; unalias zi 2>/dev/null; eval "$(zoxide init zsh)"; compdef _z_frecent z'; zinit light zdharma-continuum/null

@@ -11,4 +11,20 @@ zstyle ':fzf-tab:*' switch-group '<' '>'
 zstyle ':completion:*:descriptions' format '[%d]'
 
 FPATH="$HOMEBREW_PREFIX/share/zsh/site-functions:${FPATH}"
-autoload -Uz compinit; compinit
+
+
+# complete `z` from the zoxide database (frecency order) instead of cwd only
+function _z_frecent() {
+  local -a dirs
+  if [[ $PREFIX == [/~.]* ]]; then
+    _path_files -/
+    return
+  fi
+  dirs=("${(@f)$(zoxide query -l -- "${(@)words[2,CURRENT-1]}" "$PREFIX" 2>/dev/null)}")
+  (( ${#dirs} )) || return 1
+  (( ${#dirs} > 1 )) && compstate[insert]=menu
+  # shorten $HOME to ~ (-Q: don't quote the tilde, so quote the rest by hand)
+  dirs=("${(@)${(@)dirs/#$HOME\//~/}/#$HOME/~}")
+  dirs=("${(@)dirs/#\~\/(#b)(*)/~/${(q)match[1]}}")
+  compadd -U -Q -V frecent -- "${dirs[@]}"
+}
