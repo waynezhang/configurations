@@ -2,9 +2,11 @@ cpus: 4
 memory: 16GiB
 disk: 60GiB
 vmType: "vz"
-rosetta:
-  enabled: false
-  binfmt: false
+vmOpts:
+  vz:
+    rosetta:
+      enabled: false
+      binfmt: false
 images:
   - location: "https://github.com/lima-vm/alpine-lima/releases/download/v0.2.37/alpine-lima-std-3.19.0-x86_64.iso"
     arch: "x86_64"
@@ -59,5 +61,6 @@ portForwards:
     hostIP: 0.0.0.0
 message: |
   To run `docker` on the host (assumes docker-cli is installed):
-  $ export DOCKER_HOST=unix://{{.Dir}}/sock/docker.sock
+  $ docker context create lima --docker "host=unix://{{.Dir}}/sock/docker.sock"
+  $ docker context use lima
   $ docker ...
