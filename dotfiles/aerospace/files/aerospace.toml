@@ -1,3 +1,4 @@
+config-version = 2
 start-at-login = true
 
 automatically-unhide-macos-hidden-apps = true
