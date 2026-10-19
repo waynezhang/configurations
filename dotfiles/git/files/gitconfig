@@ -11,17 +11,13 @@
 	signingkey = ~/.ssh/id_rsa.pub
 [init]
 	defaultBranch = main
-[credential]
-	helper = manager-core
-	helper = 
-	helper = /usr/local/share/gcm-core/git-credential-manager
 [commit]
 	template = ~/.config/git/template
 	gpgsign = true
 [core]
 	excludesfile = ~/.gitignore_global
 [diff]
-    external = difft
+  external = difft
 [column]
 	ui = auto
 [push]
