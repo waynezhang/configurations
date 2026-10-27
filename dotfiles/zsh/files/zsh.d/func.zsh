@@ -1,5 +1,8 @@
-alias gu="git up"
 alias gbda='git branch --no-color --merged | command grep -vE "^(\*|\s*(master|QA|QA-mid)\s*$)" | command xargs -n 1 git branch -d'
+alias gc='git commit --verbose'
+alias gd='git diff'
+alias gst='git status'
+alias gu="git up"
 
 alias vi="nvim"
 alias vim="nvim"
@@ -10,6 +13,11 @@ alias unq='xattr -r -d com.apple.quarantine'
 
 alias wclaude='CLAUDE_CONFIG_DIR=~/.claude claude'
 alias pclaude='CLAUDE_CONFIG_DIR=~/.claude-personal claude'
+
+function mise_update() {
+  CLOUDSDK_PYTHON="$(command -v python3)" mise upgrade -y
+  GITHUB_TOKEN=$(gh auth token) mise bs packages upgrade -y
+}
 
 function gi() { curl -L -s https://www.gitignore.io/api/$@ ;}
 function gud() { GIT_COMMITTER_DATE="$1" GIT_AUTHOR_DATE="$1" git commit --amend --no-edit --date "$1" }
@@ -35,4 +43,3 @@ function update_go_bins {
   popd > /dev/null
 }
 
-setopt completealiases

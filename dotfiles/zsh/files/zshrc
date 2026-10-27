@@ -20,7 +20,7 @@ export CLICOLOR=1
 export LSCOLORS="gxfxcxdxbxegedabagacad"
 export GPG_TTY=$TTY
 
-export PATH=/opt/homebrew/bin:~/.local/share/mise/shims:/usr/local/bin:/usr/local/sbin:/usr/libexec:~/go/bin:~/bin:~/.local/bin:$PATH
+export PATH=~/.local/share/mise/shims:/usr/local/bin:/usr/local/sbin:/usr/libexec:~/go/bin:~/bin:~/.local/bin:$PATH
 
 # prompt (sync, so the prompt isn't redrawn after startup)
 
@@ -33,19 +33,11 @@ fi
 source $_starship_init
 unset _starship _starship_init
 
-# plugins
+# plugins (sheldon; list in ~/.config/sheldon/plugins.toml)
 
-source /opt/homebrew/opt/zinit/zinit.zsh
-
-zinit ice silent wait'0'; zinit light zsh-users/zsh-history-substring-search
 bindkey '^P' history-substring-search-up
 bindkey '^N' history-substring-search-down
 
-zinit ice silent wait'0'; zinit light zsh-users/zsh-completions
-zinit ice silent wait'0'; zinit light wbingli/zsh-claudecode-completion
-zinit ice silent wait'0'; zinit snippet OMZ::plugins/git/git.plugin.zsh
-
-zinit ice silent wait'0'; zinit light hchbaw/zce.zsh
 bindkey "^Xz" zce
 zstyle ':zce:*' fg 'fg=red,bold'
 zstyle ':zce:*' bg 'fg=white'
@@ -55,12 +47,30 @@ function zsh_highlight_setup {
   ZSH_HIGHLIGHT_PATTERNS+=('rm -rf [~/]*' 'fg=white,bold,bg=red')
   ZSH_HIGHLIGHT_STYLES[path]=''
 }
-zinit ice silent wait'0' atinit'zicompinit; zicdreplay' atload'zsh_highlight_setup'; zinit light zsh-users/zsh-syntax-highlighting
+
+# two cached scripts (regenerated when plugins.toml changes):
+#   sync.zsh  - zsh-defer + fpath entries, needed before the first prompt
+#   defer.zsh - the other plugins, sourced in one zsh-defer task after it
+_sheldon_cache=${XDG_CACHE_HOME:-$HOME/.cache}/sheldon
+if [[ ! -s $_sheldon_cache/sync.zsh || ! -s $_sheldon_cache/defer.zsh ||
+      ~/.config/sheldon/plugins.toml -nt $_sheldon_cache/sync.zsh ]]; then
+  mkdir -p $_sheldon_cache
+  sheldon lock >/dev/null 2>&1
+  SHELDON_PROFILE=sync sheldon source > $_sheldon_cache/sync.zsh 2>/dev/null
+  SHELDON_PROFILE=defer sheldon source > $_sheldon_cache/defer.zsh 2>/dev/null
+fi
+source $_sheldon_cache/sync.zsh
+
+function _deferred_init {
+  source $_sheldon_cache/defer.zsh
+  zsh_highlight_setup
+  source "$HOME/.zsh.d/fzf.zsh"
+  eval "$(~/.local/bin/mise activate zsh)"
+}
+zsh-defer _deferred_init
 
 for conf in "$HOME/.zsh.d/"*.zsh; do
   [[ "${conf:t}" == fzf.zsh ]] && continue
   source "${conf}"
 done
 unset conf
-
-zinit ice silent wait'0' atload'source "$HOME/.zsh.d/fzf.zsh"; eval "$(~/.local/bin/mise activate zsh)"; unalias zi 2>/dev/null; eval "$(zoxide init zsh)"; compdef _z_frecent z'; zinit light zdharma-continuum/null

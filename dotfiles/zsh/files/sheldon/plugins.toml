@@ -1,0 +1,57 @@
+shell = "zsh"
+
+# Two profiles, generated into two files by the zshrc:
+#   sync  - needed before the first prompt (zsh-defer itself, fpath entries)
+#   defer - everything else, sourced in ONE zsh-defer task after the first prompt
+# Order matters inside each profile; syntax-highlighting must stay last.
+
+# ---- sync ----
+
+[plugins.zsh-defer]
+github = "romkatv/zsh-defer"
+profiles = ["sync"]
+
+[plugins.zsh-completions]
+github = "zsh-users/zsh-completions"
+dir = "src"
+apply = ["fpath"]
+profiles = ["sync"]
+
+[plugins.zsh-z-fpath]
+github = "agkozak/zsh-z"
+apply = ["fpath"]
+profiles = ["sync"]
+
+# ---- deferred ----
+
+[plugins.compinit]
+inline = 'autoload -Uz compinit; compinit -C -d "${ZDOTDIR:-$HOME}/.zcompdump"'
+profiles = ["defer"]
+
+[plugins.carapace]
+inline = 'source <(carapace _carapace zsh)'
+profiles = ["defer"]
+
+[plugins.mise-completion]
+inline = 'source <(mise completion zsh)'
+profiles = ["defer"]
+
+[plugins.zsh-z]
+github = "agkozak/zsh-z"
+profiles = ["defer"]
+
+[plugins.zsh-history-substring-search]
+github = "zsh-users/zsh-history-substring-search"
+profiles = ["defer"]
+
+[plugins.zce]
+github = "hchbaw/zce.zsh"
+profiles = ["defer"]
+
+[plugins.fzf-tab]
+github = "Aloxaf/fzf-tab"
+profiles = ["defer"]
+
+[plugins.zsh-syntax-highlighting]
+github = "zsh-users/zsh-syntax-highlighting"
+profiles = ["defer"]

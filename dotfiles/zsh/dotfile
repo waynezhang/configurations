@@ -1,2 +1,3 @@
 link files/zshrc:~/.zshrc
 link files/zsh.d:~/.zsh.d
+link files/sheldon:~/.config/sheldon
