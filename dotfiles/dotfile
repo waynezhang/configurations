@@ -3,6 +3,7 @@
 include aerospace/dotfile
 include git/dotfile
 include hammerspoon/dotfile
+include mise/dotfile
 include nvim/dotfile
 include starship/dotfile
 include toyskkserv/dotfile

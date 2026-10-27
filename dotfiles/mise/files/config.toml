@@ -1,0 +1,81 @@
+[tools]
+carapace = "latest"
+claude-code = "latest"
+cloudflared = "latest"
+difftastic = "latest"
+docker-cli = "latest"
+eza = "latest"
+fd = "latest"
+fzf = "latest"
+gcloud = "latest"
+gh = "latest"
+"github:waynezhang/dotr" = "latest"
+jq = "latest"
+kubectl = "latest"
+lima = "latest"
+neovim = "latest"
+node = "latest"
+pnpm = "latest"
+python = "latest"
+rg = "latest"
+ruby = "latest"
+sheldon = "latest"
+starship = "latest"
+xcodes = "latest"
+yq = "latest"
+
+[bootstrap.packages]
+"brew:openssl@3" = "latest"
+"brew:waynezhang/tap/toyskkserv" = "latest"
+
+"brew-cask:alfred" = "latest"
+"brew-cask:appcleaner" = "latest"
+"brew-cask:bitwarden" = "latest"
+"brew-cask:claude" = "latest"
+"brew-cask:google-chrome" = "latest"
+"brew-cask:grammarly-desktop" = "latest"
+"brew-cask:hammerspoon" = "latest"
+"brew-cask:itsycal" = "latest"
+"brew-cask:macskk" = "latest"
+"brew-cask:nikitabobko/tap/aerospace" = "latest"
+"brew-cask:notion" = "latest"
+"brew-cask:obsidian" = "latest"
+"brew-cask:slack" = "latest"
+"brew-cask:1password" = "latest"
+"brew-cask:wezterm@nightly" = "latest"
+
+[tasks."toyskkserv:install"]
+description = "Generate launchd plist and start toyskkserv"
+run = '''
+set -e
+LABEL=local.toyskkserv
+PLIST="$HOME/Library/LaunchAgents/$LABEL.plist"
+mkdir -p "$HOME/Library/LaunchAgents" "$HOME/Library/Logs"
+cat > "$PLIST" <<EOF
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+  <key>Label</key><string>$LABEL</string>
+  <key>ProgramArguments</key>
+  <array>
+    <string>/opt/homebrew/bin/toyskkserv</string>
+    <string>serve</string>
+  </array>
+  <key>RunAtLoad</key><true/>
+  <key>KeepAlive</key><true/>
+  <key>StandardOutPath</key><string>$HOME/Library/Logs/toyskkserv.log</string>
+  <key>StandardErrorPath</key><string>$HOME/Library/Logs/toyskkserv.log</string>
+</dict>
+</plist>
+EOF
+launchctl bootout gui/$(id -u)/$LABEL 2>/dev/null || true
+launchctl bootstrap gui/$(id -u) "$PLIST"
+'''
+
+[settings.self_update]
+auto = true
+
+[settings]
+minimum_release_age = "1h"
+github.credential_command = "gh auth token"
