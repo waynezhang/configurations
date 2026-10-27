@@ -47,6 +47,10 @@ local on_attach = function(client, bufnr)
     "FormatModificationsDocumentFormattingGroup",
     { clear = false }
   )
+  if not client:supports_method("textDocument/rangeFormatting", bufnr) then
+    return
+  end
+
   vim.api.nvim_clear_autocmds({ group = augroup_id, buffer = bufnr })
 
   vim.api.nvim_create_autocmd(
@@ -56,7 +60,13 @@ local on_attach = function(client, bufnr)
       buffer = bufnr,
       callback = function()
         local lsp_format_modifications = require"lsp-format-modifications"
-        lsp_format_modifications.format_modifications(client, bufnr)
+        -- the plugin still calls the deprecated `client.supports_method(...)`
+        local compat_client = setmetatable({
+          supports_method = function(method, buf)
+            return client:supports_method(method, buf)
+          end,
+        }, { __index = client })
+        lsp_format_modifications.format_modifications(compat_client, bufnr)
       end,
     }
   )

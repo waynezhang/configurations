@@ -8,30 +8,38 @@ vim.pack.add({
 vim.pack.add({
   'https://github.com/FluxxField/smart-motion.nvim'
 })
-require("smart-motion").setup({
-  native_search = false,
-  keys = "fjdksleirughtynmcvbxzaoqp",
-  flow_state_timeout_ms = 0,
-  dim_background = false,
-})
-require("smart-motion.motions").register_motion("<leader><leader>w", {
-  collector = "lines",
-  extractor = "words",
-  filter = "filter_visible",
-  visualizer = "hint_start",
-  action = "jump",
-  map = true,
-  modes = {
-    n = {
-      word_pattern = [[\v(\w+)]],
-    }
-  },
-  metadata = {
-    motion_state = {
-      multi_window = false,
-      virt_text_pos = 'overlay',
-    },
-  },
+-- defer until the UI is up so it doesn't block the first paint
+vim.api.nvim_create_autocmd('UIEnter', {
+  once = true,
+  callback = function()
+    vim.schedule(function()
+      require("smart-motion").setup({
+        native_search = false,
+        keys = "fjdksleirughtynmcvbxzaoqp",
+        flow_state_timeout_ms = 0,
+        dim_background = false,
+      })
+      require("smart-motion.motions").register_motion("<leader><leader>w", {
+        collector = "lines",
+        extractor = "words",
+        filter = "filter_visible",
+        visualizer = "hint_start",
+        action = "jump",
+        map = true,
+        modes = {
+          n = {
+            word_pattern = [[\v(\w+)]],
+          }
+        },
+        metadata = {
+          motion_state = {
+            multi_window = false,
+            virt_text_pos = 'overlay',
+          },
+        },
+      })
+    end)
+  end,
 })
 
 vim.pack.add({ 'https://github.com/kyoh86/vim-ripgrep' })

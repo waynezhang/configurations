@@ -43,6 +43,13 @@ cmp.setup({
   )
 })
 
+cmp.setup.filetype('markdown', {
+  sources = {
+    { name = 'nvim_lsp' },
+    { name = 'buffer' },
+  },
+})
+
 cmp.setup.filetype({ "gitcommit", "NeogitCommitMessage" }, {
   sources = {
     { name = "conventionalcommits" },
