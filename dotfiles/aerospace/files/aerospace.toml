@@ -66,19 +66,6 @@ S = 'secondary'
 if.app-id = 'com.github.wez.wezterm'
 run = 'move-node-to-workspace W'
 
-[[on-window-detected]]
-if.app-id = 'com.mitchellh.ghostty'
-run = 'move-node-to-workspace G'
-
-# Mail
-[[on-window-detected]]
-if.app-id = 'com.google.Chrome.app.fmgjjmmmlfnkbppncabfkddbjimcfncm'
-run = 'move-node-to-workspace M'
-
-[[on-window-detected]]
-if.app-id = 'com.apple.mail'
-run = 'move-node-to-workspace M'
-
 # Safari
 [[on-window-detected]]
 if.app-id = 'com.apple.Safari'
@@ -89,34 +76,14 @@ run = 'move-node-to-workspace S'
 if.app-id = 'com.tinyspeck.slackmacgap'
 run = 'move-node-to-workspace 9'
 
-# Logseq
-[[on-window-detected]]
-if.app-id = 'com.electron.logseq'
-run = 'move-node-to-workspace Q'
-
-# Logseq Database
-[[on-window-detected]]
-if.app-id = 'com.logseq.logseq'
-run = 'move-node-to-workspace Q'
-
 # Obsidian
 [[on-window-detected]]
 if.app-id = 'md.obsidian'
 run = 'move-node-to-workspace Q'
 
-# ChatGPT
-[[on-window-detected]]
-if.app-id = 'com.openai.chat'
-run = 'move-node-to-workspace C'
-
 # Claude
 [[on-window-detected]]
 if.app-id = 'com.anthropic.claudefordesktop'
-run = 'move-node-to-workspace C'
-
-# Cursor
-[[on-window-detected]]
-if.app-id = 'com.todesktop.230313mzl4w4u92'
 run = 'move-node-to-workspace C'
 
 [[on-window-detected]]
