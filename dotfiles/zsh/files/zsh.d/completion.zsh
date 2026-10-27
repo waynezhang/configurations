@@ -9,6 +9,7 @@ zstyle ':completion:*:*:*:*:processes' command 'ps -u $USER -o pid,user,comm -w'
 zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;36=0=01'
 zstyle ':fzf-tab:*' switch-group '<' '>'
 zstyle ':fzf-tab:*' prefix ''
+zstyle ':fzf-tab:*' query-string prefix
 zstyle ':fzf-tab:*' show-group quiet
 
 FPATH="$HOMEBREW_PREFIX/share/zsh/site-functions:${FPATH}"
