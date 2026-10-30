@@ -10,6 +10,8 @@ zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-
 zstyle ':fzf-tab:*' switch-group '<' '>'
 zstyle ':fzf-tab:*' prefix ''
 zstyle ':fzf-tab:*' query-string prefix
+# zsh-z adds fuzzy matches with compadd -U, so they don't share the typed prefix
+zstyle ':fzf-tab:complete:(z|zshz):*' query-string input
 zstyle ':fzf-tab:*' show-group quiet
 
 FPATH="$HOMEBREW_PREFIX/share/zsh/site-functions:${FPATH}"
