@@ -3,12 +3,21 @@ local M = {}
 local CHROME_BUNDLE = "com.google.Chrome"
 local INTERVAL = 30
 
+-- Reads the Inbox nav link ("Inbox 2 unread"), which is present in every view.
+-- Needs Chrome > View > Developer > Allow JavaScript from Apple Events.
 local script = [[
 tell application "Google Chrome"
   set out to ""
   repeat with w in windows
     repeat with t in tabs of w
-      if URL of t contains "mail.google.com" then set out to out & (title of t) & linefeed
+      if URL of t contains "mail.google.com" then
+        try
+          set js to execute t javascript "(function(){var a=document.querySelector('a[aria-label^=\"Inbox\"]');if(!a)return '';var m=a.getAttribute('aria-label').match(/\\d+/);return m?m[0]:'0'})()"
+        on error
+          set js to ""
+        end try
+        set out to out & js & (ASCII character 9) & (title of t) & linefeed
+      end if
     end repeat
   end repeat
   return out
@@ -25,14 +34,17 @@ local function render(count)
   end
 end
 
+-- Each line is "<js count>\t<title>". Fall back to the title, where Gmail only
+-- shows the unread count on the Inbox view; other views (All Mail, Sent, ...)
+-- have no count, so they say nothing about unread.
 local function parseUnread(output)
   local best
-  for title in output:gmatch("[^\n]+") do
-    local n = title:match("%((%d+)%)")
+  for js, title in output:gmatch("([^\t\n]*)\t([^\n]*)") do
+    local n = js:match("^%d+$") or title:match("%((%d+)%)")
     if n then
       n = tonumber(n)
       if not best or n > best then best = n end
-    elseif not best then
+    elseif not best and title:match("^Inbox") then
       best = 0
     end
   end
