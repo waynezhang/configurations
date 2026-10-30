@@ -8,9 +8,7 @@ ${custom.git_status}\
 $jobs\
 $character"""
 
-right_format="""
-$status
-"""
+right_format = "$status"
 
 add_newline = false
 
@@ -33,7 +31,10 @@ style = "green"
 format = "→ "
 
 [status]
-format = '→ [$common_meaning $status]($style)'
+format = '[$status]($style)'
+success_symbol = "0"
+success_style = "green"
+failure_style = "bold red"
 disabled = false
 
 [git_branch]
