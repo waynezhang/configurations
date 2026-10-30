@@ -14,4 +14,7 @@ zstyle ':fzf-tab:*' query-string prefix
 zstyle ':fzf-tab:complete:(z|zshz):*' query-string input
 zstyle ':fzf-tab:*' show-group quiet
 
+# carapace filters candidates itself and is case-sensitive by default
+export CARAPACE_MATCH=1
+
 FPATH="$HOMEBREW_PREFIX/share/zsh/site-functions:${FPATH}"
