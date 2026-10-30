@@ -67,6 +67,8 @@ function _deferred_init {
   source "$HOME/.zsh.d/fzf.zsh"
   eval "$(~/.local/bin/mise activate zsh)"
 }
+# zsh-defer runs `RPS1=` when $+RPS1 is 0, which wipes starship's RPROMPT
+RPS1=$RPROMPT
 zsh-defer _deferred_init
 
 for conf in "$HOME/.zsh.d/"*.zsh; do
